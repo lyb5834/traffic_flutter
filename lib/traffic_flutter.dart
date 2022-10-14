@@ -79,7 +79,7 @@ class TrafficFlutter {
       "path": UrlAnalysis.analysis(path),
     };
     _trafficLog('screenPath '
-        'userId: $SDKDataCache().userId '
+        'userId: ${SDKDataCache().userId} '
         'title: $title '
         'path: $path '
         'path: ${UrlAnalysis.analysis(path)} '
@@ -93,7 +93,7 @@ class TrafficFlutter {
       "title": title,
     };
     _trafficLog('screen '
-        'userId: $SDKDataCache().userId '
+        'userId: ${SDKDataCache().userId} '
         'title: $title '
     );
 
@@ -108,7 +108,7 @@ class TrafficFlutter {
       "action": action,
     };
     _trafficLog('event '
-        'userId: $SDKDataCache().userId '
+        'userId: ${SDKDataCache().userId} '
         'category: $category '
         'action: $action '
     );
@@ -121,14 +121,14 @@ class TrafficFlutter {
       required List<String> category,
       required int count}) async {
     Map<String, dynamic> map = {
-      "userId": SDKDataCache().userId,
+      'userId: ${SDKDataCache().userId} '
       "searchKey": searchKey,
       "category": category,
       "count": count.toString(),
     };
 
     _trafficLog('event '
-        'userId: $SDKDataCache().userId '
+        'userId: ${SDKDataCache().userId} '
         'searchKey: $searchKey '
         'category: $category '
         'count: $count '
