@@ -70,20 +70,20 @@ public class TrafficUtils {
     }
 
 
-    public static void event(String userId, List<String> category, List<String> action) {
+    public static void event(String userId, List<String> category, String action) {
         try {
             Tracker tracker = TrafficUtils.getTracker();
             if (!TextUtils.isEmpty(userId)) {
                 tracker.setUserId(userId);
             }
             TrackHelper.track(createCustomVariables())
-                    .event(getListFormat(category), getListFormat(action))
+                    .event(getListFormat(category), action)
                     .with(tracker);
             tracker.dispatch();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        trafficLog("event -- " + getListFormat(category) + "-" + getListFormat(action));
+        trafficLog("event -- " + getListFormat(category) + "-" + action);
     }
 
 
