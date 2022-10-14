@@ -7,7 +7,6 @@ void main() {
       trafficUrl: 'https://www.baidu.com',
       trafficId: 9527,
       uuid: '00000000000000000000',
-      userId: '123456789',
       latitude: '000.00',
       longitude: '000.00',
       appVersion: '3.0.0',
@@ -77,7 +76,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () {
                   TrafficFlutter().event(
                       category: ['category1', "category2"],
-                      action: ['action1', "action2"]);
+                      action: 'action');
                 },
                 child: const Text('event'),
               ),

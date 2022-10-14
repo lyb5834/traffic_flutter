@@ -65,7 +65,7 @@ public class TrafficFlutterPlugin implements FlutterPlugin, MethodCallHandler {
         } else if (call.method.equals("event")) {
             if (call.arguments instanceof Map) {
                 Map<String, Object> map = (Map) call.arguments;
-                TrafficUtils.event(map.get("userId").toString(), (List<String>) map.get("category"), (List<String>) map.get("action"));
+                TrafficUtils.event(map.get("userId").toString(), (List<String>) map.get("category"), map.get("action").toString());
             }
         } else if (call.method.equals("search")) {
             if (call.arguments instanceof Map) {

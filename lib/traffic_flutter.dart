@@ -58,7 +58,7 @@ class TrafficFlutter {
 
   _trafficLog(String msg) {
     if (SDKDataCache().debug) {
-      print(msg);
+      print('TrafficFlutter: $msg');
     }
   }
 
@@ -74,7 +74,7 @@ class TrafficFlutter {
   Future<String?> screenPath(
       {required List<String> title, required String path}) async {
     Map<String, dynamic> map = {
-      "userId": SDKDataCache().userId,
+      "userId": SDKDataCache().userId??'',
       "title": title,
       "path": UrlAnalysis.analysis(path),
     };
@@ -89,7 +89,7 @@ class TrafficFlutter {
 
   Future<String?> screen({required List<String> title}) async {
     Map<String, dynamic> map = {
-      "userId": SDKDataCache().userId,
+      "userId": SDKDataCache().userId??'',
       "title": title,
     };
     _trafficLog('screen '
@@ -101,9 +101,9 @@ class TrafficFlutter {
   }
 
   Future<String?> event(
-      {required List<String> category, required List<String> action}) async {
+      {required List<String> category, required String action}) async {
     Map<String, dynamic> map = {
-      "userId": SDKDataCache().userId,
+      "userId": SDKDataCache().userId??'',
       "category": category,
       "action": action,
     };
@@ -121,7 +121,7 @@ class TrafficFlutter {
       required List<String> category,
       required int count}) async {
     Map<String, dynamic> map = {
-      'userId: ${SDKDataCache().userId} '
+      "userId": SDKDataCache().userId??'',
       "searchKey": searchKey,
       "category": category,
       "count": count.toString(),
