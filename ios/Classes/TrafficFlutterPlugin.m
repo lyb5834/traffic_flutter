@@ -19,7 +19,7 @@
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"register" isEqualToString:call.method]) {
       NSDictionary * dic = call.arguments;
-      NSString * trafficId = dic[@"trafficId"];
+      NSString * trafficId = [NSString stringWithFormat:@"%@",dic[@"trafficId"]];
       [TrackerTool setSitId:trafficId];
       NSLog(@"register success : trafficId = %@",trafficId);
       
