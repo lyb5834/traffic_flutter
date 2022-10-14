@@ -1,0 +1,11 @@
+framework module TrafficClassSDK {
+  umbrella header "TrafficClassSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module TrafficClassSDK.Swift {
+    header "TrafficClassSDK-Swift.h"
+    requires objc
+}

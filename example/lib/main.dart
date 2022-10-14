@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 onPressed: () {
                   TrafficFlutter().search(
-                      keyboard: 'key',
+                      searchKey: 'key',
                       category: ['category1', "category2"],
                       count: 100);
                 },

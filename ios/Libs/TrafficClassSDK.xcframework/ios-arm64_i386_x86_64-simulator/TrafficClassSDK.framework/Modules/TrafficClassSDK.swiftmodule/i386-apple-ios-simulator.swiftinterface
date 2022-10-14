@@ -1,0 +1,200 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target i386-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name TrafficClassSDK
+import CoreGraphics
+import Foundation
+import Swift
+@_exported import TrafficClassSDK
+import UIKit
+import _Concurrency
+public struct Application {
+  public static func makeCurrentApplication() -> TrafficClassSDK.Application
+  public let bundleDisplayName: Swift.String?
+  public let bundleName: Swift.String?
+  public let bundleIdentifier: Swift.String?
+  public let bundleVersion: Swift.String?
+  public let bundleShortVersion: Swift.String?
+}
+@objc @_inheritsConvenienceInitializers final public class MemoryQueue : ObjectiveC.NSObject, TrafficClassSDK.Queue {
+  final public var eventCount: Swift.Int {
+    get
+  }
+  final public func enqueue(events: [TrafficClassSDK.Event], completion: (() -> ())?)
+  final public func first(limit: Swift.Int, completion: (_ items: [TrafficClassSDK.Event]) -> ())
+  final public func remove(events: [TrafficClassSDK.Event], completion: () -> ())
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class MatomoTrackerClass : ObjectiveC.NSObject {
+  @objc deinit
+}
+@objc final public class MatomoTracker : ObjectiveC.NSObject {
+  @objc final public var isOptedOut: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc final public var userId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @available(*, deprecated, message: "use userId instead")
+  @objc final public var visitorId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc final public var forcedVisitorId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc final public var logger: TrafficClassSDK.Logger
+  @objc final public var contentBase: Foundation.URL?
+  required public init(siteId: Swift.String, queue: TrafficClassSDK.Queue, dispatcher: TrafficClassSDK.Dispatcher)
+  @objc convenience public init(siteId: Swift.String, baseURL: Foundation.URL, userAgent: Swift.String? = nil)
+  @objc final public func dispatch()
+  @objc final public var dispatchInterval: Swift.Double {
+    @objc get
+    @objc set
+  }
+  @objc final public func trackCampaign(name: Swift.String?, keyword: Swift.String?)
+  @objc final public func trackContentImpression(name: Swift.String, piece: Swift.String?, target: Swift.String?)
+  @objc final public func trackContentInteraction(name: Swift.String, interaction: Swift.String, piece: Swift.String?, target: Swift.String?)
+  @objc deinit
+}
+extension TrafficClassSDK.MatomoTracker {
+  @objc final public func startNewSession()
+}
+extension TrafficClassSDK.MatomoTracker {
+  final public func track(_ event: TrafficClassSDK.Event)
+  final public func track(view: [Swift.String], url: Foundation.URL? = nil, dimensions: [TrafficClassSDK.CustomDimension] = [])
+  final public func track(eventWithCategory category: Swift.String, action: Swift.String, name: Swift.String? = nil, value: Swift.Float? = nil, dimensions: [TrafficClassSDK.CustomDimension] = [], url: Foundation.URL? = nil)
+  final public func trackGoal(id goalId: Swift.Int?, revenue: Swift.Float?)
+  final public func trackOrder(id: Swift.String, items: [TrafficClassSDK.OrderItem], revenue: Swift.Float, subTotal: Swift.Float? = nil, tax: Swift.Float? = nil, shippingCost: Swift.Float? = nil, discount: Swift.Float? = nil)
+}
+extension TrafficClassSDK.MatomoTracker {
+  final public func trackSearch(query: Swift.String, category: Swift.String?, resultCount: Swift.Int?, dimensions: [TrafficClassSDK.CustomDimension] = [], url: Foundation.URL? = nil)
+}
+extension TrafficClassSDK.MatomoTracker {
+  @available(*, deprecated, message: "use setDimension: instead")
+  final public func set(value: Swift.String, forIndex index: Swift.Int)
+  final public func set(dimension: TrafficClassSDK.CustomDimension)
+  @objc final public func setDimension(_ value: Swift.String, forIndex index: Swift.Int)
+  @objc final public func remove(dimensionAtIndex index: Swift.Int)
+}
+extension TrafficClassSDK.MatomoTracker {
+  final public func set(customVariable: TrafficClassSDK.CustomVariable)
+  @objc final public func setCustomVariable(withIndex index: Swift.UInt, name: Swift.String, value: Swift.String)
+  @objc final public func removeCustomVariable(withIndex index: Swift.UInt)
+}
+extension TrafficClassSDK.MatomoTracker {
+  @objc final public func track(view: [Swift.String], url: Foundation.URL? = nil)
+  @objc final public func track(eventWithCategory category: Swift.String, action: Swift.String, name: Swift.String? = nil, number: Foundation.NSNumber? = nil, url: Foundation.URL? = nil)
+  @available(*, deprecated, message: "use track(eventWithCategory:action:name:number:url instead")
+  @objc final public func track(eventWithCategory category: Swift.String, action: Swift.String, name: Swift.String? = nil, number: Foundation.NSNumber? = nil)
+  @objc final public func trackSearch(query: Swift.String, category: Swift.String?, resultCount: Swift.Int, url: Foundation.URL? = nil)
+}
+extension TrafficClassSDK.MatomoTracker {
+  @objc final public func copyFromOldSharedInstance()
+}
+extension TrafficClassSDK.MatomoTracker {
+  @objc public static let sdkVersion: Swift.String
+}
+public struct CustomDimension : Swift.Codable {
+  public init(index: Swift.Int, value: Swift.String)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public protocol Dispatcher {
+  var baseURL: Foundation.URL { get }
+  var userAgent: Swift.String? { get }
+  func send(events: [TrafficClassSDK.Event], success: @escaping () -> (), failure: @escaping (_ error: Swift.Error) -> ())
+}
+public protocol Queue {
+  var eventCount: Swift.Int { get }
+  mutating func enqueue(events: [TrafficClassSDK.Event], completion: (() -> Swift.Void)?)
+  func first(limit: Swift.Int, completion: @escaping (_ items: [TrafficClassSDK.Event]) -> Swift.Void)
+  mutating func remove(events: [TrafficClassSDK.Event], completion: @escaping () -> Swift.Void)
+}
+@objc final public class Device : ObjectiveC.NSObject {
+  @objc public static func makeCurrentDevice() -> TrafficClassSDK.Device
+  @objc final public let platform: Swift.String
+  @objc final public let operatingSystem: Swift.String
+  @objc final public let osVersion: Swift.String
+  @objc final public let screenSize: CoreGraphics.CGSize
+  @objc final public let nativeScreenSize: CoreGraphics.CGSize
+  @objc final public let darwinVersion: Swift.String?
+  required public init(platform: Swift.String, operatingSystem: Swift.String, osVersion: Swift.String, screenSize: CoreGraphics.CGSize, nativeScreenSize: CoreGraphics.CGSize? = nil, darwinVersion: Swift.String? = nil)
+  @objc deinit
+}
+public struct OrderItem : Swift.Codable {
+  public init(sku: Swift.String, name: Swift.String = "", category: Swift.String = "", price: Swift.Float = 0.0, quantity: Swift.Int = 1)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc public class Variable : ObjectiveC.NSObject {
+  @objc final public let index: Swift.UInt
+  @objc final public let name: Swift.String
+  @objc final public let value: Swift.String
+  @objc required public init(index: Swift.UInt, name: Swift.String, value: Swift.String)
+  @objc deinit
+}
+public struct CustomVariable : Swift.Codable {
+  public init(index: Swift.UInt, name: Swift.String, value: Swift.String)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc public enum LogLevel : Swift.Int {
+  case verbose = 10
+  case debug = 20
+  case info = 30
+  case warning = 40
+  case error = 50
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol Logger {
+  @objc func log(_ message: @autoclosure () -> Swift.String, with level: TrafficClassSDK.LogLevel, file: Swift.String, function: Swift.String, line: Swift.Int)
+}
+@_hasMissingDesignatedInitializers final public class DisabledLogger : TrafficClassSDK.Logger {
+  @objc final public func log(_ message: @autoclosure () -> Swift.String, with level: TrafficClassSDK.LogLevel, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  @objc deinit
+}
+@objc final public class DefaultLogger : ObjectiveC.NSObject, TrafficClassSDK.Logger {
+  @objc public init(minLevel: TrafficClassSDK.LogLevel)
+  @objc final public func log(_ message: @autoclosure () -> Swift.String, with level: TrafficClassSDK.LogLevel, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  @objc deinit
+}
+public struct Event : Swift.Codable {
+  public let uuid: Foundation.UUID
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+extension TrafficClassSDK.Event {
+  public init(tracker: TrafficClassSDK.MatomoTracker, action: [Swift.String], url: Foundation.URL? = nil, referer: Foundation.URL? = nil, eventCategory: Swift.String? = nil, eventAction: Swift.String? = nil, eventName: Swift.String? = nil, eventValue: Swift.Float? = nil, customTrackingParameters: [Swift.String : Swift.String] = [:], searchQuery: Swift.String? = nil, searchCategory: Swift.String? = nil, searchResultsCount: Swift.Int? = nil, dimensions: [TrafficClassSDK.CustomDimension] = [], variables: [TrafficClassSDK.CustomVariable] = [], contentName: Swift.String? = nil, contentInteraction: Swift.String? = nil, contentPiece: Swift.String? = nil, contentTarget: Swift.String? = nil, goalId: Swift.Int? = nil, revenue: Swift.Float? = nil, orderId: Swift.String? = nil, orderItems: [TrafficClassSDK.OrderItem] = [], orderRevenue: Swift.Float? = nil, orderSubTotal: Swift.Float? = nil, orderTax: Swift.Float? = nil, orderShippingCost: Swift.Float? = nil, orderDiscount: Swift.Float? = nil, orderLastDate: Foundation.Date? = nil, isCustomAction: Swift.Bool)
+}
+@objc @_inheritsConvenienceInitializers public class TrackerTool : ObjectiveC.NSObject {
+  @objc public static func setSitId(_ siteId: Swift.String)
+  @objc public static func setUserId(_ userId: Swift.String)
+  @objc public static func addTrackView(_ views: [Swift.String], variables: [TrafficClassSDK.Variable] = [])
+  @objc public static func addTrackView(_ views: [Swift.String], variables: [TrafficClassSDK.Variable] = [], url: Foundation.URL? = nil)
+  @objc public static func trackerEventCategory(_ category: Swift.String, action: Swift.String, variables: [TrafficClassSDK.Variable] = [])
+  @objc public static func trackerEventCategory(_ category: Swift.String, action: Swift.String, variables: [TrafficClassSDK.Variable] = [], url: Foundation.URL? = nil)
+  @objc public static func trackerEventCategory(_ category: Swift.String, action: Swift.String, variables: [TrafficClassSDK.Variable] = [], name: Swift.String? = nil, number: Foundation.NSNumber? = nil, url: Foundation.URL? = nil)
+  @objc public static func trackSearch(query: Swift.String, category: Swift.String? = nil, resultCount: Swift.Int, variables: [TrafficClassSDK.Variable] = [], url: Foundation.URL? = nil)
+  @objc override dynamic public init()
+  @objc deinit
+}
+final public class URLSessionDispatcher : TrafficClassSDK.Dispatcher {
+  final public let baseURL: Foundation.URL
+  final public var userAgent: Swift.String? {
+    get
+  }
+  public init(baseURL: Foundation.URL, userAgent: Swift.String? = nil, timeout: Foundation.TimeInterval = 5.0)
+  final public func send(events: [TrafficClassSDK.Event], success: @escaping () -> (), failure: @escaping (_ error: Swift.Error) -> ())
+  @objc deinit
+}
+extension TrafficClassSDK.LogLevel : Swift.Equatable {}
+extension TrafficClassSDK.LogLevel : Swift.Hashable {}
+extension TrafficClassSDK.LogLevel : Swift.RawRepresentable {}
