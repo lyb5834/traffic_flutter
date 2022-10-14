@@ -15,6 +15,30 @@ class TrafficFlutter {
   @visibleForTesting
   final methodChannel = const MethodChannel('traffic_flutter');
 
+  Future<bool> register({
+    required String trafficUrl,
+    required int trafficId,
+    required String uuid,
+    required String appVersion,
+    String? userId='',
+    String? location='',
+
+  }) async {
+    Map<String, dynamic> map = {
+      "trafficUrl": trafficUrl,
+      "trafficId": trafficId,
+    };
+    methodChannel.invokeMethod<String>('register', map);
+    SDKDataCache().uuid = uuid;
+    SDKDataCache().appVersion = appVersion;
+    SDKDataCache().userId = userId;
+    SDKDataCache().location = location;
+    setUUID();
+    setAppVersionName();
+    return true;
+  }
+
+
    Future<bool> initSdk({
     required String uuid,
     required String appVersion,

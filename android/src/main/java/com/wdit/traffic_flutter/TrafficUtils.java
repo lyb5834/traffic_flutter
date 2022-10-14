@@ -1,29 +1,30 @@
 package com.wdit.traffic_flutter;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.wdit.traffic_flutter.sdk.ApplicationHolder;
 import com.wdit.traffic_flutter.sdk.TrackMe;
 import com.wdit.traffic_flutter.sdk.Tracker;
+import com.wdit.traffic_flutter.sdk.TrackerBuilder;
+import com.wdit.traffic_flutter.sdk.Traffic;
 import com.wdit.traffic_flutter.sdk.extra.CustomVariables;
 import com.wdit.traffic_flutter.sdk.extra.TrackHelper;
-import com.wdit.traffic_flutter.sdk.extra.TrafficApplication;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TrafficUtils {
     public static final String TAG = "TrafficUtils";
+    private static Tracker tracker;
 
-    public static Tracker getTracker() {
-        return ((TrafficApplication) ApplicationHolder.getApplication()).getTracker();
+    private static Tracker getTracker() {
+        return tracker;
+    }
+
+    public static void createTracker(Context context, String url, int siteId) {
+        if (tracker == null) {
+            tracker = TrackerBuilder.createDefault(url, siteId).build(Traffic.getInstance(context));
+        }
     }
 
     /**

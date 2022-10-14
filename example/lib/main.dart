@@ -3,6 +3,13 @@ import 'package:traffic_flutter/traffic_flutter.dart';
 
 void main() {
   runApp(const MyApp());
+  TrafficFlutter().register(
+      trafficUrl: 'https://www.baidu.com',
+      trafficId: 9527,
+      uuid: '00000000000000000000',
+      userId: '123456789',
+      location: '000.00,000.00',
+      appVersion: '3.0.0');
 }
 
 class MyApp extends StatefulWidget {
@@ -16,11 +23,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    TrafficFlutter().initSdk(
-        uuid: '00000000000000000000',
-        userId: '123456789',
-        location: '000.00,000.00',
-        appVersion: '3.0.0');
   }
 
   @override
@@ -39,7 +41,8 @@ class _MyAppState extends State<MyApp> {
                   TrafficFlutter()
                       .setLocation(longitude: '222.222', latitude: '333.333');
                 },
-                child: const Text('setUserId(1111111) & setLocation(222.222,333.333)'),
+                child: const Text(
+                    'setUserId(1111111) & setLocation(222.222,333.333)'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -47,7 +50,8 @@ class _MyAppState extends State<MyApp> {
                   TrafficFlutter()
                       .setLocation(longitude: '555.555', latitude: '666.666');
                 },
-                child: const Text('setUserId(4444444) & setLocation(555.555,666.666)'),
+                child: const Text(
+                    'setUserId(4444444) & setLocation(555.555,666.666)'),
               ),
               ElevatedButton(
                 onPressed: () {
