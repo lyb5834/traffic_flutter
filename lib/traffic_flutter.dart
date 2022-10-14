@@ -4,67 +4,66 @@ import 'package:traffic_flutter/sdk_data_cache.dart';
 import 'package:traffic_flutter/url_analysis.dart';
 
 class TrafficFlutter {
-
   static final TrafficFlutter _instance = TrafficFlutter._internal();
 
   factory TrafficFlutter() => _instance;
 
   TrafficFlutter._internal();
 
-
   @visibleForTesting
   final methodChannel = const MethodChannel('traffic_flutter');
 
-  Future<bool> register({
-    required String trafficUrl,
-    required int trafficId,
-    required String uuid,
-    required String appVersion,
-    String? userId='',
-    String? location='',
-
-  }) async {
+  Future<bool> register(
+      {required String trafficUrl,
+      required int trafficId,
+      required String uuid,
+      required String appVersion,
+      bool? debug,
+      String? userId,
+      String? longitude,
+      String? latitude}) async {
     Map<String, dynamic> map = {
       "trafficUrl": trafficUrl,
       "trafficId": trafficId,
     };
     methodChannel.invokeMethod<String>('register', map);
-    SDKDataCache().uuid = uuid;
-    SDKDataCache().appVersion = appVersion;
-    SDKDataCache().userId = userId;
-    SDKDataCache().location = location;
-    setUUID();
-    setAppVersionName();
+    methodChannel.invokeMethod<String>('setUUID', uuid);
+    methodChannel.invokeMethod<String>('setAppVersionName', appVersion);
+    _init(userId: userId, longitude: longitude, latitude: latitude);
+    SDKDataCache().debug = debug ?? false;
+
+    _trafficLog('register trafficUrl: $trafficUrl '
+        'trafficId: $trafficId '
+        'uuid: $uuid '
+        'appVersion: $appVersion '
+        'userId: $userId '
+        'longitude: $longitude '
+        'latitude: $latitude '
+        'debug: $debug '
+    );
     return true;
   }
 
+  _init({String? userId, String? longitude, String? latitude}) {
+    if (userId != null && userId.isNotEmpty) {
+      setUserId(userId: userId);
+    }
+    if (longitude != null &&
+        longitude.isNotEmpty &&
+        latitude != null &&
+        latitude.isNotEmpty) {
+      setLocation(longitude: longitude, latitude: latitude);
+    }
+  }
 
-   Future<bool> initSdk({
-    required String uuid,
-    required String appVersion,
-    String? userId='',
-    String? location='',
-  }) async {
-    SDKDataCache().uuid = uuid;
-    SDKDataCache().appVersion = appVersion;
-    SDKDataCache().userId = userId;
-    SDKDataCache().location = location;
-    setUUID();
-    setAppVersionName();
-    return true;
+  _trafficLog(String msg) {
+    if (SDKDataCache().debug) {
+      print(msg);
+    }
   }
 
   setUserId({required String userId}) {
     SDKDataCache().userId = userId;
-  }
-
-  setUUID() {
-    methodChannel.invokeMethod<String>('setUUID', SDKDataCache().uuid);
-  }
-
-  setAppVersionName() {
-    methodChannel.invokeMethod<String>(
-        'setAppVersionName', SDKDataCache().appVersion);
   }
 
   setLocation({required String longitude, required String latitude}) {
@@ -79,6 +78,12 @@ class TrafficFlutter {
       "title": title,
       "path": UrlAnalysis.analysis(path),
     };
+    _trafficLog('screenPath '
+        'userId: $SDKDataCache().userId '
+        'title: $title '
+        'path: $path '
+        'path: ${UrlAnalysis.analysis(path)} '
+    );
     return await methodChannel.invokeMethod<String>('screenPath', map);
   }
 
@@ -87,6 +92,11 @@ class TrafficFlutter {
       "userId": SDKDataCache().userId,
       "title": title,
     };
+    _trafficLog('screen '
+        'userId: $SDKDataCache().userId '
+        'title: $title '
+    );
+
     return await methodChannel.invokeMethod<String>('screen', map);
   }
 
@@ -97,19 +107,33 @@ class TrafficFlutter {
       "category": category,
       "action": action,
     };
+    _trafficLog('event '
+        'userId: $SDKDataCache().userId '
+        'category: $category '
+        'action: $action '
+    );
+
     return await methodChannel.invokeMethod<String>('event', map);
   }
 
   Future<String?> search(
-      {required String keyboard,
+      {required String searchKey,
       required List<String> category,
       required int count}) async {
     Map<String, dynamic> map = {
       "userId": SDKDataCache().userId,
-      "keyboard": keyboard,
+      "searchKey": searchKey,
       "category": category,
       "count": count.toString(),
     };
+
+    _trafficLog('event '
+        'userId: $SDKDataCache().userId '
+        'searchKey: $searchKey '
+        'category: $category '
+        'count: $count '
+    );
+
     return await methodChannel.invokeMethod<String>('search', map);
   }
 }

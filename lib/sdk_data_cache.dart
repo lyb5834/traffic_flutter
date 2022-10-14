@@ -5,8 +5,7 @@ class SDKDataCache {
 
   SDKDataCache._internal();
 
-  String? uuid;
   String? userId;
-  String? appVersion;
   String? location;
+  bool debug = false;
 }

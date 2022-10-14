@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.embedding.engine.plugins.activity.ActivityAware;
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -19,10 +17,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
  * TrafficFlutterPlugin
  */
 public class TrafficFlutterPlugin implements FlutterPlugin, MethodCallHandler {
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
+
     private MethodChannel channel;
     private Context applicationContext;
 
@@ -42,11 +37,9 @@ public class TrafficFlutterPlugin implements FlutterPlugin, MethodCallHandler {
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("register")) {
-            // "trafficUrl": trafficUrl,
-            // "trafficId": trafficId,
             if (call.arguments instanceof Map) {
                 Map<String, Object> map = (Map) call.arguments;
-                TrafficUtils.createTracker(applicationContext,map.get("trafficUrl").toString(),Integer.parseInt(map.get("trafficId").toString()));
+                TrafficUtils.createTracker(applicationContext, map.get("trafficUrl").toString(), Integer.parseInt(map.get("trafficId").toString()));
             }
 
         } else if (call.method.equals("setUUID")) {
@@ -77,11 +70,27 @@ public class TrafficFlutterPlugin implements FlutterPlugin, MethodCallHandler {
         } else if (call.method.equals("search")) {
             if (call.arguments instanceof Map) {
                 Map<String, Object> map = (Map) call.arguments;
-                TrafficUtils.search(map.get("userId").toString(), map.get("keyboard").toString(), (List<String>) map.get("category"), Integer.parseInt(map.get("count").toString()));
+                TrafficUtils.search(map.get("userId").toString(), map.get("searchKey").toString(), (List<String>) map.get("category"), Integer.parseInt(map.get("count").toString()));
             }
         } else {
             result.notImplemented();
         }
     }
 
+
+//    public static Map<String, Object> getObjectFormat(Object obj) throws IllegalAccessException {
+//        Map<String, Object> map = new LinkedHashMap<String, Object>();
+//        Class<?> clazz = obj.getClass();
+//        System.out.println(clazz);
+//        for (Field field : clazz.getDeclaredFields()) {
+//            field.setAccessible(true);
+//            String fieldName = field.getName();
+//            Object value = field.get(obj);
+//            if (value == null){
+//                value = "";
+//            }
+//            map.put(fieldName, value);
+//        }
+//        return map;
+//    }
 }

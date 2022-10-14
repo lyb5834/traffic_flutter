@@ -8,8 +8,10 @@ void main() {
       trafficId: 9527,
       uuid: '00000000000000000000',
       userId: '123456789',
-      location: '000.00,000.00',
-      appVersion: '3.0.0');
+      latitude: '000.00',
+      longitude: '000.00',
+      appVersion: '3.0.0',
+      debug: true);
 }
 
 class MyApp extends StatefulWidget {

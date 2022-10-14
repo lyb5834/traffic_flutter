@@ -87,14 +87,14 @@ public class TrafficUtils {
     }
 
 
-    public static void search(String userId, String keyboard, List<String> category, int count) {
+    public static void search(String userId, String searchKey, List<String> category, int count) {
         try {
             Tracker tracker = TrafficUtils.getTracker();
             if (!TextUtils.isEmpty(userId)) {
                 tracker.setUserId(userId);
             }
             TrackHelper.track(createCustomVariables())
-                    .search(TextUtils.isEmpty(keyboard) ? " " : keyboard)
+                    .search(TextUtils.isEmpty(searchKey) ? " " : searchKey)
                     .category(getListFormat(category))
                     .count(count)
                     .with(tracker);
@@ -102,7 +102,7 @@ public class TrafficUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        trafficLog("search -- keyboard " + keyboard + " category " + getListFormat(category) + " count " + count);
+        trafficLog("search -- searchKey " + searchKey + " category " + getListFormat(category) + " count " + count);
     }
 
 
