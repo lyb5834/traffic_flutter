@@ -1,4 +1,3 @@
-
 class UrlAnalysis {
   static String analysis(String urlString) {
     final encodeUrlString = Uri.encodeFull(urlString);
@@ -22,9 +21,9 @@ class UrlAnalysis {
         }
       }
     }
-      print('actionUrl = $urlString \n host = ${uri.host} \n params = $params');
+    print('actionUrl = $urlString \n host = ${uri.host} \n params = $params');
 
-    return params['target']??'';
+    return params['target'] ?? urlString;
   }
 
   // 是否包含中文
