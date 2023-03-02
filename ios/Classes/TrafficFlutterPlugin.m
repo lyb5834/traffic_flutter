@@ -39,12 +39,20 @@
       NSDictionary * dic = call.arguments;
       NSArray <NSString *>* titles = dic[@"title"];
       NSString * url = dic[@"path"];
+      NSString * userId = dic[@"userId"];
+      if (userId != nil && userId.length > 0) {
+          [TrackerTool setUserId:userId];
+      }
       [TrackerTool addTrackView:titles variables:[self getTracks] url:[NSURL URLWithString:url]];
       NSLog(@"页面埋点 => %@-%@",[titles componentsJoinedByString:@"/"],url);
       
   } else if ([@"screen" isEqualToString:call.method]) {
       NSDictionary * dic = call.arguments;
       NSArray <NSString *>* titles = dic[@"title"];
+      NSString * userId = dic[@"userId"];
+      if (userId != nil && userId.length > 0) {
+          [TrackerTool setUserId:userId];
+      }
       [TrackerTool addTrackView:titles variables:[self getTracks]];
       NSLog(@"页面埋点 => %@",[titles componentsJoinedByString:@"/"]);
       
@@ -52,6 +60,10 @@
       NSDictionary * dic = call.arguments;
       NSArray <NSString *>* categorys = dic[@"category"];
       NSString * action = dic[@"action"];
+      NSString * userId = dic[@"userId"];
+      if (userId != nil && userId.length > 0) {
+          [TrackerTool setUserId:userId];
+      }
       [TrackerTool trackerEventCategory:[categorys componentsJoinedByString:@"/"] action:action variables:[self getTracks]];
       NSLog(@"事件埋点 => %@-%@",[categorys componentsJoinedByString:@"/"],action);
       
@@ -60,6 +72,10 @@
       NSArray <NSString *>* categorys = dic[@"category"];
       NSString * query = dic[@"searchKey"];
       NSInteger count = [dic[@"count"] integerValue];
+      NSString * userId = dic[@"userId"];
+      if (userId != nil && userId.length > 0) {
+          [TrackerTool setUserId:userId];
+      }
       [TrackerTool trackSearchWithQuery:query category:[categorys componentsJoinedByString:@"/"] resultCount:count variables:[self getTracks] url:nil];
       NSLog(@"搜索埋点 => %@-%@-%ld",query,[categorys componentsJoinedByString:@"/"],count);
       
